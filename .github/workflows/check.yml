@@ -17,10 +17,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Debug Repository Structure  
+        run: ls -R
+
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'  # Use the appropriate Java version for your project
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Build with Maven

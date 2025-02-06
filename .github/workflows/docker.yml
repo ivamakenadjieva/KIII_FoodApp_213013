@@ -28,11 +28,12 @@ jobs:
       - name: Build the JAR File
         run: |
           echo "Building FoodApp..."
+          cd backend  # Ensure we navigate to the backend directory
           mvn clean package -DskipTests
           ls -lh target/
 
       - name: Upload JAR as an Artifact
-        uses: actions/upload-artifact@v4  # Corrected to v4
+        uses: actions/upload-artifact@v4
         with:
           name: foodapp-jar
           path: target/*.jar
@@ -61,7 +62,7 @@ jobs:
 
       - name: Build and Push Docker Image
         env:
-          IMAGE_NAME: ivamakenadjieva/kiii_food_app
+          IMAGE_NAME: ivamakenadjieva/kiii_foodapp_213013-app:latest
           IMAGE_TAG: ${{ github.sha }}
         run: |
           echo "Building Docker Image..."

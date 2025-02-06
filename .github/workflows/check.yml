@@ -1,31 +1,29 @@
-name: Build FoodApp with Maven
+name: Docker Hub Authentication Check
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger on push to the main branch
   pull_request:
     branches:
-      - main
-  workflow_dispatch:
+      - main  # Trigger on pull requests to the main branch
+  workflow_dispatch:  # Allow manual triggering of the workflow
 
 jobs:
-  build:
+  dockerhub-auth-check:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Debug Repository Structure  
-        run: ls -R
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build with Maven
-        run: mvn clean install
-        working-directory: backend 
+      - name: Verify Docker Hub login
+        run: |
+          echo "Logged in to Docker Hub as ${{ secrets.DOCKERHUB_USERNAME }}"
+          docker logout

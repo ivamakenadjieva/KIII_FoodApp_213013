@@ -29,6 +29,5 @@ jobs:
             --push \
             --tag ${{ secrets.DOCKERHUB_USERNAME }}/kiii_foodapp_213013-app:latest .
 
-      # Step 5: Clean up after the build
       - name: Clean up
         run: docker buildx prune -a -f

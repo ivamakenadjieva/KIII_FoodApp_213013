@@ -28,7 +28,7 @@ jobs:
       - name: Build the JAR File
         run: |
           echo "Building FoodApp..."
-          cd backend  # Ensure we navigate to the backend directory
+          cd backend  
           mvn clean package -DskipTests
           ls -lh target/
 

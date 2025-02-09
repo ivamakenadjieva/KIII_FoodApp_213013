@@ -1,0 +1,60 @@
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"labels\":{\"app.kubernetes.io/instance\":\"ingress-nginx\",\"app.kubernetes.io/name\":\"ingress-nginx\"},\"name\":\"ingress-nginx\"}}\n"
+        },
+        "creationTimestamp": "2025-02-06T17:14:18Z",
+        "deletionTimestamp": "2025-02-07T11:08:49Z",
+        "labels": {
+            "app.kubernetes.io/instance": "ingress-nginx",
+            "app.kubernetes.io/name": "ingress-nginx",
+            "kubernetes.io/metadata.name": "ingress-nginx"
+        },
+        "name": "ingress-nginx",
+        "resourceVersion": "207565",
+        "uid": "8f99f939-26de-4add-8063-d4e3c7e2fffc"
+    },
+    "spec": {},
+    "status": {
+        "conditions": [
+            {
+                "lastTransitionTime": "2025-02-07T11:08:54Z",
+                "message": "Discovery failed for some groups, 1 failing: unable to retrieve the complete list of server APIs: metrics.k8s.io/v1beta1: stale GroupVersion discovery: metrics.k8s.io/v1beta1",
+                "reason": "DiscoveryFailed",
+                "status": "True",
+                "type": "NamespaceDeletionDiscoveryFailure"
+            },
+            {
+                "lastTransitionTime": "2025-02-07T11:08:54Z",
+                "message": "All legacy kube types successfully parsed",
+                "reason": "ParsedGroupVersions",
+                "status": "False",
+                "type": "NamespaceDeletionGroupVersionParsingFailure"
+            },
+            {
+                "lastTransitionTime": "2025-02-07T11:08:54Z",
+                "message": "All content successfully deleted, may be waiting on finalization",
+                "reason": "ContentDeleted",
+                "status": "False",
+                "type": "NamespaceDeletionContentFailure"
+            },
+            {
+                "lastTransitionTime": "2025-02-07T11:08:54Z",
+                "message": "All content successfully removed",
+                "reason": "ContentRemoved",
+                "status": "False",
+                "type": "NamespaceContentRemaining"
+            },
+            {
+                "lastTransitionTime": "2025-02-07T11:08:54Z",
+                "message": "All content-preserving finalizers finished",
+                "reason": "ContentHasNoFinalizers",
+                "status": "False",
+                "type": "NamespaceFinalizersRemaining"
+            }
+        ],
+        "phase": "Terminating"
+    }
+}

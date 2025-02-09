@@ -10,7 +10,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/backe
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: vasil
-    restart: always  # Ensures the app restarts if it fails
+    restart: always 
 
   db:
     image: postgres:13

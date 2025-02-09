@@ -1,0 +1,106 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: foodapp-namespace
+type: Opaque
+data:
+  username: cG9zdGdyZXM=
+  password: dmFzaWw=
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: foodapp-namespace
+data:
+  POSTGRES_DB: backe
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: foodapp-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13
+          env:
+            - name: DATABASE_URL
+              value: "postgres://postgres:vasil@db-service:5432/postgres"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_DB
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      volumes:
+        - name: postgres-data
+          emptyDir: {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foodapp
+  namespace: foodapp-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: foodapp
+  template:
+    metadata:
+      labels:
+        app: foodapp
+    spec:
+      containers:
+        - name: foodapp
+          image: ivamakenadjieva/kiii_foodapp_213013-app:latest
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://db-service:5432/backe
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: update
+          ports:
+            - containerPort: 8080
